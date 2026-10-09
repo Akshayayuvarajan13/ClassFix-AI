@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClassFix AI — Classroom Issue Management</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">C</div><div><strong>ClassFix <span>AI</span></strong><small>Campus operations</small></div></div>
+      <div class="side-label">PORTALS</div>
+      <button class="nav-item active" data-view="report"><span>＋</span> Student / Staff Portal</button>
+      <button class="nav-item" data-view="admin"><span>▦</span> Admin Dashboard</button>
+      <div class="side-bottom"><div class="status-dot"></div><div><strong id="connection-title">Demo mode</strong><small id="connection-sub">Local preview data</small></div></div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div><div class="eyebrow">SMART CLASSROOM ISSUE REPORTER</div><h1 id="page-title">Report a classroom issue</h1></div><div class="top-actions"><span class="pill"><i></i> Issue tracking</span><button class="avatar" title="Portal">CF</button></div></header>
+      <section id="report-view" class="view">
+        <div class="hero"><div><span class="hero-kicker">HELP US FIX IT FASTER</span><h2>Something not working?<br><em>Let us know.</em></h2><p>Report classroom equipment, connectivity, furniture, cleanliness, or other campus issues in a few simple steps.</p></div><div class="hero-art"><div class="art-card art-one">📶<small>Wi-Fi</small></div><div class="art-card art-two">💡<small>Lighting</small></div><div class="art-center">✓</div><div class="art-card art-three">🪑<small>Furniture</small></div></div></div>
+        <div class="content-grid">
+          <div class="panel report-panel">
+            <div class="student-auth-strip">
+              <div><strong>Student / Staff sign in</strong><p>Sign in to submit and track classroom reports.</p></div>
+              <div class="student-auth-actions"><button type="button" id="google-login" class="secondary-btn">Continue with Google</button></div>
+            </div>
+            <form id="student-auth-form" class="student-auth-form">
+              <div class="field-row"><label>Email address<input id="student-email" type="email" required autocomplete="email" placeholder="you@college.edu"></label><label>Password<input id="student-password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"></label></div>
+              <div class="student-auth-actions"><button type="submit" class="secondary-btn" id="student-signin">Sign in with email</button><button type="button" class="secondary-btn" id="student-signup">Create account</button><button type="button" class="icon-btn hidden" id="student-signout">Sign out</button></div>
+              <div id="student-auth-message" class="message" role="status"></div>
+            </form>
+          </div>
+          <div class="panel report-panel"><div class="panel-head"><div><span class="step-tag">NEW REPORT</span><h3>Issue details</h3><p>Fields marked * are required.</p></div><div class="panel-icon">↗</div></div>
+            <form id="issue-form">
+              <div class="field-row"><label>Reported by<input id="reporter" placeholder="Your name (optional)"></label><label>Contact / email<input id="contact" type="text" placeholder="For follow-up (optional)"></label></div>
+              <div class="field-row"><label>Building / block *<input id="building" required placeholder="e.g. Main Block"></label><label>Room / classroom *<input id="room" required placeholder="e.g. Room 204"></label></div>
+              <div class="field-row"><label>Issue category *<select id="category" required><option value="">Select a category</option><option>Projector / Display</option><option>Fan / Air Conditioning</option><option>Lights / Electrical</option><option>Wi-Fi / Network</option><option>Furniture</option><option>Cleanliness</option><option>Safety</option><option>Other</option></select></label><label>Urgency *<select id="urgency" required><option value="Medium">Medium — normal disruption</option><option value="Low">Low — minor issue</option><option value="High">High — class affected</option><option value="Critical">Critical — safety / major outage</option></select></label></div>
+              <label>Describe the issue *<textarea id="description" required rows="4" placeholder="What is wrong? When did you notice it?"></textarea></label>
+              <div class="upload-box"><div class="upload-symbol">↑</div><div class="upload-copy"><strong>Attach a photo (optional)</strong><span>Upload a picture from your device to help maintenance identify the issue.</span><small id="file-name">JPG, PNG or WEBP · max 5 MB</small></div><label class="upload-button" for="photo">Choose file</label><input id="photo" type="file" accept="image/png,image/jpeg,image/webp"></div>
+              <div class="form-foot"><span><span class="lock">▣</span> Please do not upload sensitive personal information.</span><button class="primary-btn" id="submit-btn" type="submit">Submit issue <span>→</span></button></div>
+              <div id="form-message" class="message" role="status"></div>
+            </form>
+          </div>
+          <aside class="right-rail"><div class="mini-panel"><div class="mini-head"><span class="mini-icon">◎</span><strong>What happens next?</strong></div><div class="timeline"><div class="timeline-item"><b>1</b><div><strong>Issue submitted</strong><p>Your report receives a tracking ID.</p></div></div><div class="timeline-item"><b>2</b><div><strong>Admin reviews</strong><p>Maintenance team checks urgency and details.</p></div></div><div class="timeline-item"><b>3</b><div><strong>Issue resolved</strong><p>Status is updated when work is complete.</p></div></div></div></div>
+            <div class="mini-panel help-panel"><div class="mini-head"><span class="mini-icon orange">!</span><strong>Safety emergency?</strong></div><p>For immediate danger, contact campus security or the responsible staff directly. This form is for issue tracking, not emergency response.</p></div>
+            <div class="mini-panel privacy-panel"><span class="privacy-icon">✦</span><div><strong>One campus. Better classrooms.</strong><p>Every clear report helps staff prioritize repairs and keep learning spaces ready.</p></div></div>
+          </aside>
+        </div>
+      </section>
+      <section id="admin-view" class="view hidden">
+        <div id="admin-login" class="login-wrap"><div class="login-card"><div class="login-symbol">▦</div><span class="step-tag">RESTRICTED AREA</span><h2>Admin portal</h2><p>Authorized administrator access only. Sign in with the registered admin account.</p><form id="login-form"><label>Admin email<input id="admin-email" type="email" required autocomplete="username" placeholder="admin123@gmail.com"></label><label>Password<input id="admin-password" type="password" required autocomplete="current-password" placeholder="Enter admin password"></label><button class="primary-btn full" type="submit">Sign in to dashboard →</button><div id="login-message" class="message" role="status"></div></form><div class="demo-note" id="demo-login-note">Admin access requires cloud configuration. No demo access is available.</div></div></div>
+        <div id="admin-dashboard" class="hidden">
+          <div class="dashboard-toolbar"><div><h2>Operations overview</h2><p>Review, prioritize, and resolve classroom issues.</p></div><div class="toolbar-actions"><button id="refresh-btn" class="secondary-btn">↻ Refresh</button><button id="export-btn" class="primary-btn">Export report ↓</button><button id="logout-btn" class="icon-btn">Sign out</button></div></div>
+          <div class="stats-grid"><div class="stat-card"><div class="stat-top"><span>All issues</span><span class="stat-icon blue">▤</span></div><strong id="stat-all">0</strong><small>Reports received</small></div><div class="stat-card"><div class="stat-top"><span>Active issues</span><span class="stat-icon orange">◷</span></div><strong id="stat-active">0</strong><small>Need attention</small></div><div class="stat-card"><div class="stat-top"><span>High priority</span><span class="stat-icon red">!</span></div><strong id="stat-high">0</strong><small>High or critical</small></div><div class="stat-card"><div class="stat-top"><span>Completed</span><span class="stat-icon green">✓</span></div><strong id="stat-completed">0</strong><small>Resolved issues</small></div></div>
+          <div class="panel issues-panel"><div class="issues-head"><div><span class="step-tag">ISSUE MANAGEMENT</span><h3>All classroom reports</h3></div><div class="filters"><input id="search-issues" placeholder="Search room, issue, ID…"><select id="status-filter"><option value="All">All statuses</option><option>Submitted</option><option>In Progress</option><option>Completed</option></select><select id="priority-filter"><option value="All">All priorities</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></div></div>
+            <div class="table-wrap"><table><thead><tr><th>Issue</th><th>Location</th><th>Priority</th><th>Reported</th><th>Status</th><th>Action</th></tr></thead><tbody id="issues-body"></tbody></table><div id="empty-state" class="empty-state hidden"><div>▤</div><strong>No issues found</strong><p>Try changing your filters or submit a new report.</p></div></div><div class="table-foot"><span id="issue-count">0 issues</span><span>Reports are shared when cloud storage is configured.</span></div>
+          </div>
+          <div class="panel report-insights"><div><span class="step-tag">COMPLETION REPORTS</span><h3>Resolution summary</h3><p>Generate a report using issues marked Completed. Export includes issue details, location, priority, submission date, and resolution date.</p></div><div class="insight-right"><div><span>Completed this view</span><strong id="completed-summary">0</strong></div><button class="secondary-btn" id="completed-export-btn">Export completed issues ↗</button></div></div>
+        </div>
+      </section>
+      <footer><span>ClassFix AI <b>·</b> Smart Classroom Issue Reporter</span><span>Designed for a more responsive campus <b>✦</b></span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="config.js"></script><script src="app.js"></script>
+</body></html>
